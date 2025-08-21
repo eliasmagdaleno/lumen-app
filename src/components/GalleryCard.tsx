@@ -1,13 +1,12 @@
 import React from "react";
 // hovering over gallery card should reveal additional information
 function GalleryCard({ thumbnail, info }) {
-
-    function onFavoriteClick() {
-        console.log("Favorite clicked for:", info.title);
-    }
+  function onFavoriteClick() {
+    console.log("Favorite clicked for:", info.title);
+  }
 
   return (
-    <div className="gallery-card">
+    <div className="gallery-card ">
       <img
         src={thumbnail}
         alt={info.title}
@@ -15,7 +14,7 @@ function GalleryCard({ thumbnail, info }) {
       />
       <div className="gallery-card-overlay">
         <button className="favorite-btn" onClick={onFavoriteClick}>
-            <i className="fa fa-heart"></i>
+          <i className="bi bi-star"></i>
         </button>
       </div>
       <div className="gallery-card-info">

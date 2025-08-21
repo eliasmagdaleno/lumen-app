@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <main className="main-content">
+      <main className="main-content container-fluid">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Gallery" element={<Gallery />} />
