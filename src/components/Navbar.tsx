@@ -31,6 +31,16 @@ const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
+              <a className="nav-link" href="/Gallery">
+                Cameras
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/Gallery">
+                Film Stock
+              </a>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="#">
                 <i className="bi bi-upload"></i> Upload
               </a>

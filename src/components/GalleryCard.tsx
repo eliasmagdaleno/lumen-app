@@ -6,18 +6,18 @@ function GalleryCard({ thumbnail, info }) {
   }
 
   return (
-    <div className="gallery-card ">
+    <div className="gallery-card card" style={{ width: "18rem" }}>
       <img
         src={thumbnail}
         alt={info.title}
-        className="gallery-card-thumbnail"
+        className="gallery-card-thumbnail img-thumbnail"
       />
       <div className="gallery-card-overlay">
         <button className="favorite-btn" onClick={onFavoriteClick}>
           <i className="bi bi-star"></i>
         </button>
       </div>
-      <div className="gallery-card-info">
+      <div className="gallery-card-info card-body">
         <h3>{info.title}</h3>
         <p>{info.timestamp}</p>
         <p>By: {info.author}</p>
