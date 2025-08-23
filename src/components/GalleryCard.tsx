@@ -6,7 +6,7 @@ function GalleryCard({ thumbnail, info }) {
   }
 
   return (
-    <div className="gallery-card card">
+    <div className="gallery-card card d-block">
       <img
         src={thumbnail}
         alt={info.title}

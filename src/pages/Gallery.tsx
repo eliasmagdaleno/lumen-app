@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import GalleryCard from "../components/GalleryCard";
+
 
 // Import images
 import img01 from "../assets/images/img01.jpg";
@@ -17,8 +18,14 @@ import img12 from "../assets/images/img12.jpg";
 import img13 from "../assets/images/img13.jpg";
 import img14 from "../assets/images/img14.jpg";
 import img15 from "../assets/images/img15.jpg";
+import Masonry from "masonry-layout";
 
 function Gallery() {
+  const galleryRef = React.useRef<HTMLDivElement>(null);
+  const masonryRef = useRef<Masonry | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+
   const galleryItems = [
     {
       id: 1,
@@ -174,9 +181,12 @@ function Gallery() {
 
   return (
     <div className="gallery-container container">
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 ">
+      <div
+        className="gallery-grid row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6 row-cols-xl-8 g-0"
+        data-masonry='{"percentPosition": true }' 
+      >
         {galleryItems.map((item) => (
-          <div className="col m-0 d-block" key={item.id}>
+          <div className="col m-0" key={item.id}>
             <GalleryCard thumbnail={item.thumbnail} info={item.info} />
           </div>
         ))}

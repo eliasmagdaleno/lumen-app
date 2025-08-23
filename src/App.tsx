@@ -20,6 +20,7 @@ function App() {
           {/* Add more routes here */}
         </Routes>
       </main>
+      <script src="/node_modules/masonry-layout/dist/masonry.pkgd.min.js"></script>
     </div>
   );
 }
