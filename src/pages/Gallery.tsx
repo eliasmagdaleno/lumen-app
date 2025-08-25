@@ -1,6 +1,7 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GalleryCard from "../components/GalleryCard";
-
+import Masonry from "masonry-layout";
+import imagesLoaded from "imagesloaded";
 
 // Import images
 import img01 from "../assets/images/img01.jpg";
@@ -18,15 +19,13 @@ import img12 from "../assets/images/img12.jpg";
 import img13 from "../assets/images/img13.jpg";
 import img14 from "../assets/images/img14.jpg";
 import img15 from "../assets/images/img15.jpg";
-import Masonry from "masonry-layout";
 
 function Gallery() {
   const galleryRef = React.useRef<HTMLDivElement>(null);
   const masonryRef = useRef<Masonry | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-
-  const galleryItems = [
+  const galleryItems: GalleryItem[] = [
     {
       id: 1,
       thumbnail: img01,
@@ -179,14 +178,64 @@ function Gallery() {
     },
   ];
 
+  useEffect(() => {
+    if (!galleryRef.current) return;
+    const initMasonry = () => {
+      if (masonryRef.current) {
+        masonryRef.current.destroy();
+      }
+      masonryRef.current = new Masonry(galleryRef.current!, {
+        itemSelector: ".gallery-item",
+        columnWidth: ".grid-sizer",
+        gutter: ".gutter-sizer",
+        percentPosition: true,
+        stagger: 30,
+        transitionDuration: "0.3s",
+      });
+      const imgLoad = imagesLoaded(galleryRef.current!);
+      imgLoad.on("progress", () => {
+        masonryRef.current?.layout();
+      });
+
+      imgLoad.on("always", () => {
+        masonryRef.current?.layout();
+        setIsLoaded(true);
+      });
+    };
+
+    const timer = setTimeout(initMasonry, 100);
+    return () => {
+      clearTimeout(timer);
+      if (masonryRef.current) {
+        masonryRef.current.destroy();
+        masonryRef.current = null;
+      }
+    };
+  }, [galleryItems]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (masonryRef.current) {
+        masonryRef.current.layout();
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="gallery-container container">
+    <div className="gallery-container container-fluid">
       <div
-        className="gallery-grid row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6 row-cols-xl-8 g-0"
-        data-masonry='{"percentPosition": true }' 
+        ref={galleryRef}
+        className={`gallery-masonry ${isLoaded ? "loaded" : "loading"}`}
       >
+        {}
+        <div className="grid-sizer"></div>
+        {}
+        <div className="gutter-sizer"></div>
+
         {galleryItems.map((item) => (
-          <div className="col m-0" key={item.id}>
+          <div className="gallery-item" key={item.id}>
             <GalleryCard thumbnail={item.thumbnail} info={item.info} />
           </div>
         ))}

@@ -1,7 +1,288 @@
 // Import all of Bootstrap’s CSS
 @import "bootstrap/scss/bootstrap";
 
-.gallery-grid {
-  // Masonry grid styles
-  horizontalOrder: true;
+.gallery-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.gallery-masonry{
+  position: relative;
+}
+
+.gallery-masonry.loading{
+  opacity: 0.7;
+}
+
+.gallery-masonry.loaded{
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.grid-sizer {
+  width: 20%;
+}
+
+.gutter-sizer {
+  width: 2%;
+}
+
+.gallery-item{
+  width: 20%;
+  margin-bottom: 2%;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.gallery-item:nth-child(1){
+  animation-delay: 0.1s;
+}
+.gallery-item:nth-child(2) { animation-delay: 0.15s; }
+.gallery-item:nth-child(3) { animation-delay: 0.2s; }
+.gallery-item:nth-child(4) { animation-delay: 0.25s; }
+.gallery-item:nth-child(5) { animation-delay: 0.3s; }
+.gallery-item:nth-child(6) { animation-delay: 0.35s; }
+.gallery-item:nth-child(7) { animation-delay: 0.4s; }
+.gallery-item:nth-child(8) { animation-delay: 0.45s; }
+.gallery-item:nth-child(9) { animation-delay: 0.5s; }
+.gallery-item:nth-child(10) { animation-delay: 0.55s; }
+.gallery-item:nth-child(n+11) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gallery-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background:white;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-card-image-container {
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.gallery-card-thumbnail {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: grayscale(20%);
+  opacity: 0;
+}
+
+.gallery-card-thumbnail.loaded {
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+.gallery-card:hover .gallery-card-thumbnail {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+/* Image Loading Placeholder */
+.image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  min-height: 200px;
+}
+
+/* Overlay Styles */
+.gallery-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.gallery-card-overlay.show {
+  opacity: 1;
+}
+
+/* Favorite Button */
+.favorite-btn {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.favorite-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  color: #ffc107;
+}
+
+.favorite-btn.favorited {
+  color: #ffc107;
+  background: rgba(255, 193, 7, 0.1);
+}
+
+/* Info Overlay */
+.gallery-card-info {
+  color: white;
+  text-align: left;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.card-details {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.card-details p {
+  margin: 0 0 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-details i {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  width: 12px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .grid-sizer,
+  .gallery-item {
+    width: 25%; /* 4 columns */
+  }
+  .gutter-sizer {
+    width: 2.5%;
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-sizer,
+  .gallery-item {
+    width: 33.333%; /* 3 columns */
+  }
+  .gutter-sizer {
+    width: 3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-sizer,
+  .gallery-item {
+    width: 50%; /* 2 columns */
+  }
+  .gutter-sizer {
+    width: 4%;
+  }
+  
+  .gallery-container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .grid-sizer,
+  .gallery-item {
+    width: 100%; /* 1 column */
+  }
+  .gutter-sizer {
+    width: 0;
+  }
+  
+  .gallery-container {
+    padding: 10px;
+  }
+  
+  .gallery-card-overlay {
+    opacity: 1; /* Always show on mobile */
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .gallery-card {
+    background: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .image-placeholder {
+    background: #4a5568;
+  }
+  
+  .favorite-btn {
+    background: rgba(45, 55, 72, 0.9);
+    color: #e2e8f0;
+  }
+  
+  .favorite-btn:hover {
+    background: rgba(45, 55, 72, 1);
+  }
+}
+
+/* Loading states */
+.gallery-masonry.loading .gallery-item {
+  animation: none;
+  opacity: 0.5;
+}
+
+/* Print styles */
+@media print {
+  .gallery-card-overlay {
+    display: none;
+  }
+  
+  .gallery-item {
+    break-inside: avoid;
+  }
 }
