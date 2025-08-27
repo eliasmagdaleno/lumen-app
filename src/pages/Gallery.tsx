@@ -3,6 +3,7 @@ import GalleryCard from "../components/GalleryCard";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
 import FilterPanel from "../components/FilterPanel";
+import OffcanvasNavbar from "../components/OffcanvasNavbar";
 
 // Import images
 import img01 from "../assets/images/img01.jpg";
@@ -264,36 +265,39 @@ function Gallery() {
   }, []);
 
   return (
-   
-    <div className="gallery-container container">
-      <FilterPanel
-        filterOptions={filmStocks}
-        selectedFilter={filmStocks[0]}
-        onFilterChange={(value) => {
-          console.log("Filter changed to:", value);
-        }}
-        sortOptions={sortOptions}
-        selectedSort={sortOptions[0].value}
-        onSortChange={(value) => {
-          console.log("Sort changed to:", value);
-        }}
-      />
-      <div
-        ref={galleryRef}
-        className={`gallery-masonry ${isLoaded ? "loaded" : "loading"}`}
-      >
-        {}
-        <div className="grid-sizer"></div>
-        {}
-        <div className="gutter-sizer"></div>
+    <>
+      <div className="gallery-container container">
+        <FilterPanel
+          filterOptions={filmStocks}
+          selectedFilter={filmStocks[0]}
+          onFilterChange={(value) => {
+            console.log("Filter changed to:", value);
+          }}
+          sortOptions={sortOptions}
+          selectedSort={sortOptions[0].value}
+          onSortChange={(value) => {
+            console.log("Sort changed to:", value);
+          }}
+        ></FilterPanel>
+        <OffcanvasNavbar />
 
-        {galleryItems.map((item) => (
-          <div className="gallery-item" key={item.id}>
-            <GalleryCard thumbnail={item.thumbnail} info={item.info} />
-          </div>
-        ))}
+        <div
+          ref={galleryRef}
+          className={`gallery-masonry ${isLoaded ? "loaded" : "loading"}`}
+        >
+          {}
+          <div className="grid-sizer"></div>
+          {}
+          <div className="gutter-sizer"></div>
+
+          {galleryItems.map((item) => (
+            <div className="gallery-item" key={item.id}>
+              <GalleryCard thumbnail={item.thumbnail} info={item.info} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
