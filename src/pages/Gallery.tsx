@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import GalleryCard from "../components/GalleryCard";
 import Masonry from "masonry-layout";
 import imagesLoaded from "imagesloaded";
+import FilterPanel from "../components/FilterPanel";
 
 // Import images
 import img01 from "../assets/images/img01.jpg";
@@ -20,8 +21,19 @@ import img13 from "../assets/images/img13.jpg";
 import img14 from "../assets/images/img14.jpg";
 import img15 from "../assets/images/img15.jpg";
 
+interface GalleryItem {
+  id: number;
+  thumbnail: string;
+  info: {
+    title: string;
+    timestamp: string;
+    author: string;
+    filmStock: string;
+  };
+}
+
 function Gallery() {
-  const galleryRef = React.useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const masonryRef = useRef<Masonry | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -177,11 +189,23 @@ function Gallery() {
       },
     },
   ];
+  const filmStocks = [
+    "All",
+    ...Array.from(new Set(galleryItems.map((i) => i.info.filmStock))),
+  ];
+
+  const sortOptions = [
+    { value: "latest", label: "Latest uploaded" },
+    { value: "popular", label: "Most popular" },
+  ];
 
   useEffect(() => {
     if (!galleryRef.current) return;
     const initMasonry = () => {
-      if (masonryRef.current) {
+      if (
+        masonryRef.current &&
+        typeof masonryRef.current.destroy === "function"
+      ) {
         masonryRef.current.destroy();
       }
       masonryRef.current = new Masonry(galleryRef.current!, {
@@ -194,11 +218,21 @@ function Gallery() {
       });
       const imgLoad = imagesLoaded(galleryRef.current!);
       imgLoad.on("progress", () => {
-        masonryRef.current?.layout();
+        if (
+          masonryRef.current &&
+          typeof masonryRef.current.layout === "function"
+        ) {
+          masonryRef.current.layout();
+        }
       });
 
       imgLoad.on("always", () => {
-        masonryRef.current?.layout();
+        if (
+          masonryRef.current &&
+          typeof masonryRef.current.layout === "function"
+        ) {
+          masonryRef.current.layout();
+        }
         setIsLoaded(true);
       });
     };
@@ -206,7 +240,10 @@ function Gallery() {
     const timer = setTimeout(initMasonry, 100);
     return () => {
       clearTimeout(timer);
-      if (masonryRef.current) {
+      if (
+        masonryRef.current &&
+        typeof masonryRef.current.destroy === "function"
+      ) {
         masonryRef.current.destroy();
         masonryRef.current = null;
       }
@@ -215,7 +252,10 @@ function Gallery() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (masonryRef.current) {
+      if (
+        masonryRef.current &&
+        typeof masonryRef.current.layout === "function"
+      ) {
         masonryRef.current.layout();
       }
     };
@@ -224,7 +264,20 @@ function Gallery() {
   }, []);
 
   return (
-    <div className="gallery-container container-fluid">
+   
+    <div className="gallery-container container">
+      <FilterPanel
+        filterOptions={filmStocks}
+        selectedFilter={filmStocks[0]}
+        onFilterChange={(value) => {
+          console.log("Filter changed to:", value);
+        }}
+        sortOptions={sortOptions}
+        selectedSort={sortOptions[0].value}
+        onSortChange={(value) => {
+          console.log("Sort changed to:", value);
+        }}
+      />
       <div
         ref={galleryRef}
         className={`gallery-masonry ${isLoaded ? "loaded" : "loading"}`}
