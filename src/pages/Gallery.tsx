@@ -266,7 +266,9 @@ function Gallery() {
 
   return (
     <>
-      <div className="gallery-container container">
+      <OffcanvasNavbar />
+      <div className="gallery-container container-fluid">
+        
         <FilterPanel
           filterOptions={filmStocks}
           selectedFilter={filmStocks[0]}
@@ -279,7 +281,7 @@ function Gallery() {
             console.log("Sort changed to:", value);
           }}
         ></FilterPanel>
-        <OffcanvasNavbar />
+        
 
         <div
           ref={galleryRef}

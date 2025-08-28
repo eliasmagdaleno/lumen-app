@@ -1,5 +1,10 @@
 // Import all of Bootstrap’s CSS
 @import "bootstrap/scss/bootstrap";
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .gallery-container {
   padding: 20px;
@@ -285,4 +290,29 @@
   .gallery-item {
     break-inside: avoid;
   }
+}
+
+.gallery-sidebar{
+  position: absolute;
+  // top: 0;
+  // left: 0;
+  // bottom: 0;
+  height: 100%;
+  width: 180px;
+  background-color: #2469af;
+  transition: 0.5s ease;
+}
+
+.sidebar-menu li{
+  list-style: none;
+}
+
+.sidebar-menu a{
+  color: #ffc107;
+  font-weight: 500;
+  padding: 5px 0;
+  display: block;
+  text-decoration: none;
+  transition: 0.2s ease-out;
+
 }
